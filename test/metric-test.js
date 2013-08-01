@@ -10,8 +10,7 @@ var _ = require("underscore"),
     tiers       = require("../lib/cube/tiers"),
     units       = tiers.units,
     event       = require("../lib/cube/event"),
-    metric      = require("../lib/cube/metric"),
-    options     = require("../config/cube");
+    metric      = require("../lib/cube/metric");
 
 // as a hack to get updates to settle, we need to insert delays.
 // if you see heisen-errors in the metrics tests, increase these.
@@ -64,8 +63,8 @@ steps[units.day     ].description = "1-day";
 
 suite.addBatch(test_helper.batch({
   topic: function(test_db) {
-    var putter    = event.putter(test_db, options),
-        getter    = metric.getter(test_db, options),
+    var putter    = event.putter(test_db),
+        getter    = metric.getter(test_db),
         callback  = this.callback,
         put_queue = queuer(10);
     this.putter = putter;
