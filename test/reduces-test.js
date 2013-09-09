@@ -14,7 +14,7 @@ suite.addBatch({
         keys.push(key);
       }
       keys.sort();
-      assert.deepEqual(keys, ["avg", "distinct", "finalize", "max", "median", "min", "sum"]);
+      assert.deepEqual(keys, ["avg", "distinct", "max", "median", "min", "sum"]);
     }
   },
 

@@ -6,7 +6,8 @@ var _ = require("underscore"),
     http        = require("http"),
     dgram       = require('dgram'),
     Db          = require("../lib/cube/db"),
-    metalog     = require("../lib/cube/metalog");
+    metalog     = require("../lib/cube/metalog"),
+    config      = require("../config/cube");
 
 // ==========================================================================
 //
@@ -17,6 +18,39 @@ var test_helper = {};
 var test_collections   = ["test_users", "test_events", "test_metrics", "test_boards"];
 test_helper.inspectify = metalog.inspectify;
 test_helper._          = require('underscore');
+
+config.set('mongodb', {
+  'mongo-host': 'localhost',
+  'mongo-port': 27017,
+  'mongo-username': null,
+  'mongo-password': null,
+  'mongo-database': 'cube_test',
+  'host': 'localhost',
+  'authentication-collection': 'test_users'
+});
+
+config.set('horizons', {
+  calculation: +(new Date()),
+  invalidation: +(new Date())
+});
+
+var basePort = 1083;
+config.set('collector', {
+  'http-port': basePort++,
+  'udp-port': basePort++,
+  'authenticator': 'allow_all'
+});
+
+config.set('evaluator', {
+  'http-port': basePort++,
+  'authenticator': 'allow_all'
+});
+
+config.set('warmer', {
+  'warmer-interval': 10000,
+  'warmer-tier': 10000
+});
+
 
 // Disable logging for tests.
 metalog.loggers.info  = metalog.silent; // log

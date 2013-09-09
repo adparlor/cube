@@ -6,4 +6,4 @@ var cube = require("../"),
 server
   .use(cube.evaluator.register)
   .use(cube.visualizer.register)
-  .start()
+  .start();
