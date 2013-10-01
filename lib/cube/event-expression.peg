@@ -8,7 +8,8 @@
       filterNotEqual = filter("$ne"),
       filterRegularExpression = filter("$regex"),
       filterIn = filter("$in"),
-      filterExists = filter("$exists", true),
+      filterNin = filter("$nin"),
+      filterExists = filterExists,
       exists = {$exists: true};
 
   function noop() {}
@@ -22,11 +23,20 @@
       var f = o[k];
       switch (typeof f) {
         case "undefined": o[k] = f = {}; // continue
-        case "object": f[op] = (v !== undefined) ? v : defaultVal; break;
+        case "object": f[op] = v; break;
         // otherwise, observe the existing equals (literal) filter
       }
-      
+
     };
+  }
+
+  function filterExists(o, k, v) {
+    var f = o[k];
+      switch (typeof f) {
+        case "undefined": o[k] = f = {}; // continue
+        case "object": f["$exists"] = true; break;
+        // otherwise, observe the existing equals (literal) filter
+      }
   }
 
   function arrayAccessor(name) {
@@ -36,7 +46,7 @@
   }
 
   function objectAccessor(name) {
-  
+
     return name;
   }
 
@@ -77,11 +87,11 @@
       }
     };
   }
-  
+
   function alternativeMember(head, tail) {
   	tail = tail.map(function(t){return t[3]})
     var fields = [head.field].concat(tail.map(function(e){return e.field}))
-    
+
     var or = "$or";
     or.array = true;
     if(tail.length===0) {
@@ -90,7 +100,7 @@
 		  return {
 		    field: or,
 		    exists: function(o) {
-		    	
+
 		    	o["$or"] = o["$or"] || [];
 		    	var l = o["$or"].length;
 		    	if(! o["$or"][l]){
@@ -105,8 +115,8 @@
 		    		e.exists(o["$or"][l+i+1]);
 		    	})
 		    },
-		    
-		    fields: function(o) {      	
+
+		    fields: function(o) {
 		      head.fields(o);
 		    	tail.forEach(function(e,i){e.fields(o);	})
 		    }
@@ -144,7 +154,7 @@ event_alternative_member_expression
  = head:event_member_expression tail:(
 	_ "|" _ tail:event_member_expression
 	 )* { return alternativeMember(head, tail); }
- 
+
 event_member_expression
   = head:identifier tail:(
         _ "[" _ name:number _ "]" { return arrayAccessor(name); }
@@ -152,14 +162,16 @@ event_member_expression
     )* { return member(head, tail); }
 
 filter_operator
-  = "eq" { return filterEqual; }
-  / "gt" { return filterGreater; }
-  / "ge" { return filterGreaterOrEqual; }
-  / "lt" { return filterLess; }
-  / "le" { return filterLessOrEqual; }
-  / "ne" { return filterNotEqual; }
-  / "re" { return filterRegularExpression; }
-  / "in" { return filterIn; }
+  = "eq"     { return filterEqual; }
+  / "gt"     { return filterGreater; }
+  / "ge"     { return filterGreaterOrEqual; }
+  / "lt"     { return filterLess; }
+  / "le"     { return filterLessOrEqual; }
+  / "ne"     { return filterNotEqual; }
+  / "re"     { return filterRegularExpression; }
+  / "in"     { return filterIn; }
+  / "in"     { return filterIn; }
+  / "nin"    { return filterNin; }
   / "exists" { return filterExists; }
 
 type

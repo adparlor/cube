@@ -8,7 +8,8 @@
       filterNotEqual = filter("$ne"),
       filterRegularExpression = filter("$regex"),
       filterIn = filter("$in"),
-      filterExists = filter("$exists", true),
+      filterNin = filter("$nin"),
+      filterExists = filterExists,
       exists = {$exists: true};
 
   function add(a, b) { return a + b; }
@@ -19,19 +20,24 @@
   function one() { return 1; }
   function noop() {}
 
-  function filter(op, defaultVal) {
-    return function assign(o/*bject*/, k/*ey*/, v/*alue*/) {
-    	if(Array.isArray(k)) {
-    		o["$or"]=[];
-    		return k.forEach(function(key,i){o["$or"][i]={}; assign(o["$or"][i], key, v)})
-    	}
+  function filter(op) {
+    return function assign(o, k, v) {
       var f = o[k];
       switch (typeof f) {
         case "undefined": o[k] = f = {}; // continue
-        case "object": f[op] = (v !== undefined) ? v : defaultVal; break;
+        case "object": f[op] = v; break;
         // otherwise, observe the existing equals (literal) filter
       }
-    }
+    };
+  }
+
+  function filterExists(o, k, v) {
+    var f = o[k];
+      switch (typeof f) {
+        case "undefined": o[k] = f = {}; // continue
+        case "object": f["$exists"] = true; break;
+        // otherwise, observe the existing equals (literal) filter
+      }
   }
 
   function arrayAccessor(name) {
@@ -229,14 +235,15 @@ multiplicative_operator
   / "/" { return divide; }
 
 filter_operator
-  = "eq" { return filterEqual; }
-  / "gt" { return filterGreater; }
-  / "ge" { return filterGreaterOrEqual; }
-  / "lt" { return filterLess; }
-  / "le" { return filterLessOrEqual; }
-  / "ne" { return filterNotEqual; }
-  / "re" { return filterRegularExpression; }
-  / "in" { return filterIn; }
+  = "eq"     { return filterEqual; }
+  / "gt"     { return filterGreater; }
+  / "ge"     { return filterGreaterOrEqual; }
+  / "lt"     { return filterLess; }
+  / "le"     { return filterLessOrEqual; }
+  / "ne"     { return filterNotEqual; }
+  / "re"     { return filterRegularExpression; }
+  / "in"     { return filterIn; }
+  / "nin"    { return filterNin; }
   / "exists" { return filterExists; }
 
 reduce
