@@ -15,14 +15,15 @@ module.exports = {
 
     'mongo-metrics': {
       autoIndexId: true,
-      capped: false,
+      capped: true,
+      size: 2.09716e8, // 200 MB
       safe: false
     },
 
     'mongo-events': {
       autoIndexId: true,
       capped: true,
-      size: 1e9,
+      size: 1.0486e8, // 100 MB
       safe: false
     },
 
@@ -30,11 +31,11 @@ module.exports = {
 
     'authentication-collection': 'users'
   },
-  horizons: {
-    'calculation': 1000 * 60 * 60 * 2, // 2 hours
-    'invalidation': 1000 * 60 * 60 * 1, // 1 hour
-    'forced_metric_expiration': 1000 * 60 * 60 * 24 * 7, // 7 days
-  },
+  // horizons: {
+  //   'calculation': 1000 * 60 * 60 * 2, // 2 hours
+  //   'invalidation': 1000 * 60 * 60 * 1, // 1 hour
+  //   'forced_metric_expiration': 1000 * 60 * 60 * 24 * 7, // 7 days
+  // },
   'collectd-mappings': {
     'snmp': {
       'if_octets': 'interface',
@@ -44,7 +45,6 @@ module.exports = {
     }
   },
 
-  'http-port': 1080,
-  'udp-port': 1180,
+  'http-port': 1081,
   'authenticator': 'allow_all'
 };

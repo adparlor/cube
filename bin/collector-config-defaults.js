@@ -15,14 +15,15 @@ module.exports = {
 
     'mongo-metrics': {
       autoIndexId: true,
-      capped: false,
+      capped: true,
+      size: 2.09716e8, // 200 MB
       safe: false
     },
 
     'mongo-events': {
       autoIndexId: true,
       capped: true,
-      size: 1e9,
+      size: 1.0486e8, // 100 MB
       safe: false
     },
 
@@ -44,6 +45,7 @@ module.exports = {
     }
   },
 
-  'http-port': 1081,
+  'http-port': 1080,
+  'udp-port': 1180,
   'authenticator': 'allow_all'
 };
