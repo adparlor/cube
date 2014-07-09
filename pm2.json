@@ -4,7 +4,7 @@
     "name":"cube-collector",
     "instances":1,
     "exec_interpreter":"node",
-    "exec_mode":"fork_mode",
+    "exec_mode":"cluster_mode",
     "min_uptime":10,
     "max_restarts":10
   },
@@ -13,7 +13,7 @@
     "name":"cube-evaluator",
     "instances":1,
     "exec_interpreter":"node",
-    "exec_mode":"fork_mode",
+    "exec_mode":"cluster_mode",
     "min_uptime":10,
     "max_restarts":10
   }
