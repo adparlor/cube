@@ -31,11 +31,11 @@ module.exports = {
 
     'authentication-collection': 'users'
   },
-  horizons: {
-    'calculation': 1000 * 60 * 60 * 2, // 2 hours
-    'invalidation': 1000 * 60 * 60 * 1, // 1 hour
-    'forced_metric_expiration': 1000 * 60 * 60 * 24 * 7, // 7 days
-  },
+  // horizons: {
+  //   'calculation': 1000 * 60 * 60 * 2, // 2 hours
+  //   'invalidation': 1000 * 60 * 60 * 1, // 1 hour
+  //   'forced_metric_expiration': 1000 * 60 * 60 * 24 * 7, // 7 days
+  // },
   'collectd-mappings': {
     'snmp': {
       'if_octets': 'interface',
