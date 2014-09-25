@@ -21,7 +21,7 @@
     "pegjs": "0.7.0",
     "vows": "0.7.0",
     "websocket": "~1.0.8",
-    "websocket-server": "1.4.04",
+    "websocket-server": "git+https://github.com/playfm/node-websocket-server.git",
     "cookies": "~0.3.8",
     "bcrypt": "0.7.7",
     "underscore": "~1.5.2",
