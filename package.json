@@ -16,7 +16,7 @@
   },
   "main": "./lib/cube",
   "dependencies": {
-    "bcrypt": "0.7.7",
+    "bcrypt": "0.8.5",
     "cookies": "~0.3.8",
     "jake": "0.5.6",
     "mongodb": "^1.4.39",
